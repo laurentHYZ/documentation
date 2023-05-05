@@ -1,0 +1,240 @@
+#+TITLE: some test
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/npm/reveal.js@4.0.0/
+#+PROPERTY: header-args :dir ~/Documents/spudlyo/tmp :results verbatim :exports both :noweb yes
+
+#+REVEAL_THEME: beige
+#+CALL: init()
+#+INCLUDE: code.inc
+* hello
+** where are we now?
+
+#+begin_src shell
+echo "the working directory is: $(dirs +0)"
+git status 2>&1 || echo GIt is not happy
+#+end_src
+
+#+RESULTS:
+: the working directory is: ~/Documents/spudlyo/tmp
+: On branch master
+:
+: No commits yet
+:
+: nothing to commit (create/copy files and use "git add" to track)
+
+
+** Let's create the .git directory
+#+begin_src shell
+mkdir -p .git
+mkdir -p .git/objects
+mkdir -p .git/refs
+mkdir -p .git/refs/heads
+echo "ref: refs/heads/master" > .git/HEAD
+tree .git
+git status 2>&1 && echo Git is happy
+#+end_src
+
+
+** Let's hash something
+We are going to hash the string "call_hello[:results raw]()" by using the git plumbing command =hash object=.
+
+#+NAME:hashobject
+#+begin_src shell
+echo -n "<<code.inc:hello()>>" | git hash-object --stdin -w
+#+end_src
+
+** let's use the first 4 characters
+In order to ID a file it is enough to use the first 4 characters of the hash.
+It would be very nice if I could inline invoke a function that would return those first 4 characters, let's create that short_hash function within code.inc shall we.
+This function should take a line of characters as an argument and return the first 4.
+If I pick the line "somehash", then if will obtain call_short_hash(line="somehash").
+The first 4 characters of hashobject are: call_short_hash(line=hashobject).
+
+** Where did git put it?
+
+Let's see how it was stored in the =.git= directory.
+#+begin_src shell
+tree .git
+#+end_src
+
+#+RESULTS:
+: .git
+: ├── HEAD
+: ├── objects
+: │   └── 36
+: │       └── 7642c385d53f81937c3a20dddfec24ee280a17
+: └── refs
+:     └── heads
+:
+: 4 directories, 2 files
+
+What is happening now is that .git shards the directory based on the first 2 bytes of the hash.
+This is done because in general file systems do not like to have too many files within one single directory.
+
+** Can we simply look at the object?
+We can NOT look at the object directly because git stores in compressed format. However it is possible to use the =git cat-file -p= command to take a peak, note that the =-p= argument stands for pretty-print.
+#+NAME: myhello
+#+begin_src shell
+git cat-file -p <<short_hash(line=hashobject)>>
+#+end_src
+
+** Let's create =hash_to_dir= utility function
+=hash_to_dir= will take a 40-character hash as an argument and output the relative path of that hash location in the database.
+#+begin_src shell
+echo <<hash_to_dir(line=hashobject>>
+#+end_src
+
+#+RESULTS:
+:
+
+
+#+begin_src shell
+tree .git
+#+end_src
+
+#+RESULTS:
+#+begin_example
+.git
+├── HEAD
+├── objects
+│   ├── 5a
+│   │   └── c102dbd33f598ff37daff32ee4ed3d9243386f
+│   └── 99
+│       └── f3d7245d346302292b35a9e0222b54a8f4b11f
+└── refs
+    └── heads
+
+5 directories, 3 files
+#+end_example
+
+** Offerzen.com
+#+NAME: students
+| Name   | Mark |
+|--------+------|
+| Alice  |   79 |
+| Bob    |   19 |
+| Claire |   50 |
+| Dave   |   49 |
+| Eve    |   87 |
+| Frank  |   73 |
+
+#+NAME: passes functions
+#+BEGIN_SRC js
+function isPass(student) {
+    var name = student[0];
+    var mark = student[1];
+    return mark >= requiredMark(name);
+}
+
+function requiredMark(name) {
+    return 50 + name.length * 5;
+}
+#+END_SRC
+
+#+NAME: passing students
+#+BEGIN_SRC js :var students=students :noweb yes :exports both
+  <<passes functions>>
+
+  return students.map(function(student) {
+      var name = student[0];
+      var pass = isPass(student) ? 'Passed' : 'Failed';
+      return [
+          name,
+          requiredMark(name),
+          pass
+      ];
+  });
+#+END_SRC
+
+#+RESULTS: passing students
+: [
+:   [ 'Alice', 75, 'Passed' ],
+:   [ 'Bob', 65, 'Failed' ],
+:   [ 'Claire', 80, 'Failed' ],
+:   [ 'Dave', 70, 'Failed' ],
+:   [ 'Eve', 65, 'Passed' ],
+:   [ 'Frank', 75, 'Failed' ]
+: ]
+
+#+NAME: overall statistics
+#+BEGIN_SRC js :var students=students :noweb yes :exports both :results output
+  <<statistics functions>>
+
+  var marks = students.map(function(student) {
+      return student[1];
+  });
+  console.log('Count:', marks.length);
+  console.log('Average:', average(marks));
+  console.log('Standard deviation:', standardDeviation(marks));
+#+END_SRC
+
+#+RESULTS: overall statistics
+: Count: 6
+: Average: 60
+: Standard deviation: 25
+
+
+
+
+#+NAME: statistics functions
+#+BEGIN_SRC js :exports none
+  function average(marks) {
+      return Math.round(marks.reduce(function(accumulator, next) {
+          return accumulator + next;
+      }, 0) / marks.length);
+  }
+
+  function standardDeviation(marks) {
+      var marksAverage = average(marks);
+      var sd = Math.sqrt(marks.reduce(function(accumulator, next) {
+          return accumulator + Math.pow(next - marksAverage, 2);
+      }, 0) / (marks.length - 1))
+      return Math.round(sd);
+  }
+#+END_SRC
+
+#+RESULTS: statistics functions
+: undefined
+
+
+
+#+begin_src rust :tangle test.rs
+let a: u32 = 8;
+println!("{}", a.to_string());
+#+end_src
+
+#+RESULTS:
+: 8
+
+** flashcards
+#+name: pre
+#+begin_src shell
+echo "---pre ----"
+#+end_src
+
+#+RESULTS: pre
+: ---pre ----
+
+#+name: post
+#+begin_src shell
+echo "---post----"
+#+end_src
+
+#+RESULTS: post
+: ---post----
+
+#+name: hello
+#+begin_src shell :tangle test :exports results :noweb yes :results raw
+<<pre>>
+echo "- renew middle -"
+<<post>>
+#+end_src
+
+#+RESULTS: hello
+---pre ----
+- middle -
+---post----
+---pre ----
+- middle -
+---post----

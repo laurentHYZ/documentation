@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Niklas</title>
+<meta name="author" content="John Doe"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="/home/laurent/.emacs.d/.local/straight/build-28.2/revealjs/dist/reveal.css"/>
+
+<link rel="stylesheet" href="/home/laurent/.emacs.d/.local/straight/build-28.2/revealjs/dist/theme/black.css" id="theme"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide">
+<h1 class="title">Niklas</h1><h2 class="author">John Doe</h2><p class="date">Created: 2023-05-04 Thu 03:17</p>
+</section>
+<section>
+<section id="slide-orgddd5b67">
+<h2 id="orgddd5b67">Org-mode, literate programming in Emacs</h2>
+<div class="outline-text-2" id="text-orgddd5b67">
+</div>
+</section>
+<section id="slide-org48b9ebb">
+<h3 id="org48b9ebb"><span class="done DONE">DONE</span> Org-mode&#xa0;&#xa0;&#xa0;<span class="tag"><span class="emacs">emacs</span>&#xa0;<span class="org_mode">org_mode</span></span></h3>
+<p>
+The first thing I will do is to show how an <code>.org</code> file looks in
+fundamental-mode. It&rsquo;s actually nothing more than a text file. To know more
+about Org-mode visit the <a href="https://orgmode.org/">org-mode-site</a>.
+</p>
+
+</section>
+<section id="slide-orge274f8a">
+<h4 id="orge274f8a">Content</h4>
+<p>
+Here are some of the basics we can have a look at:
+</p>
+
+<ul>
+<li>Headings, how to create them and change them</li>
+<li>What kinds of lists are supported</li>
+<li>How tables look like</li>
+<li>TODO:s</li>
+<li>Add an item</li>
+
+</ul>
+
+
+<ul class="org-ul">
+<li><a id="org86baf21"></a>My favorite things<br />
+<ol>
+<li>That it&rsquo;s just plain text files</li>
+<li>It&rsquo;s automatic adjustments</li>
+<li>Add a numbered item</li>
+
+</ol>
+</li>
+
+<li><a id="orgc246f1a"></a>Another heading<br /></li>
+<li><a id="org6e4d82f"></a>Commands<br />
+<p>
+Good to know commands in Org-mode
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Command</th>
+<th scope="col" class="org-left">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Tab heading</td>
+<td class="org-left">Demotes heading</td>
+</tr>
+
+<tr>
+<td class="org-left">Shift-Tab heading</td>
+<td class="org-left">Promote heading</td>
+</tr>
+
+<tr>
+<td class="org-left">C-Enter</td>
+<td class="org-left">Create another heading</td>
+</tr>
+
+<tr>
+<td class="org-left">M-Enter</td>
+<td class="org-left">Adds another item to the list</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+
+</section>
+<section id="slide-org37ceabb">
+<h3 id="org37ceabb">Literate programming</h3>
+<p>
+<code>Babel</code>
+</p>
+
+<p>
+Show the content of my home directory
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #ECBE7B;">cd</span> ~/Documents/spudlyo/
+<span style="color: #ECBE7B;">ls</span>
+</pre>
+</div>
+
+
+
+<p>
+Emacs is built mostly in Emacs lisp
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp"><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">format</span> <span style="color: #98be65;">"Hello there"</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+
+<p>
+Python
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #c678dd;">print</span>(<span style="color: #98be65;">"Hello there"</span>)
+</pre>
+</div>
+
+<p>
+C++
+</p>
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #51afef; font-weight: bold;">#include</span> <span style="color: #98be65;">&lt;iostream&gt;</span>
+
+<span style="color: #ECBE7B;">int</span> <span style="color: #c678dd;">main</span>()
+{
+    <span style="color: #a9a1e1;">std</span>::cout &lt;&lt; <span style="color: #98be65;">"Hello there"</span> &lt;&lt;<span style="color: #a9a1e1;">std</span>::endl;
+    <span style="color: #51afef;">return</span> <span style="color: #da8548; font-weight: bold;">0</span>;
+}
+</pre>
+</div>
+
+<p>
+We are of course not only limited to perform simple operations like
+<code>hello-world</code>. Here is an example using the <code>Eigen</code> library and the <code>c++17</code> compiler.
+</p>
+
+
+</section>
+<section id="slide-org122807e">
+<h3 id="org122807e">Chaining</h3>
+<p>
+This is how to create a variable in bash and how to check it&rsquo;s value:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #dcaeea;">MY_NAME</span>=<span style="color: #98be65;">"Niklas"</span>
+<span style="color: #ECBE7B;">echo</span> $<span style="color: #dcaeea;">MY_NAME</span>
+</pre>
+</div>
+
+<p>
+Let&rsquo;s create a variable
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #dcaeea;">MY_NAME</span>=<span style="color: #98be65;">"Niklas"</span>
+</pre>
+</div>
+
+<p>
+And let&rsquo;s print it&rsquo;s value
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #ECBE7B;">echo</span> $<span style="color: #dcaeea;">MY_NAME</span>
+</pre>
+</div>
+
+
+<p>
+Let&rsquo;s create a variable
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #dcaeea;">MY_NAME</span>=<span style="color: #98be65;">"Niklas"</span>
+</pre>
+</div>
+
+<p>
+And let&rsquo;s print it&rsquo;s value
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #ECBE7B;">echo</span> $<span style="color: #dcaeea;">MY_NAME</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-org8f90808">
+<h4 id="org8f90808">Python</h4>
+<p>
+This works with other languages that supports <a href="https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop">interactive
+repls</a>(read-eval-print-loop), like Python.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #51afef;">def</span> <span style="color: #c678dd;">calculate_sum</span>(numbers):
+    <span style="color: #c678dd;">sum</span> = <span style="color: #da8548; font-weight: bold;">0</span>
+    <span style="color: #51afef;">for</span> number <span style="color: #51afef;">in</span> <span style="color: #dcaeea;">numbers</span>:
+       <span style="color: #c678dd;">sum</span> += number
+
+    <span style="color: #51afef;">return</span> <span style="color: #c678dd;">sum</span>
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #dcaeea;">numbers</span> = [x <span style="color: #51afef;">for</span> x <span style="color: #51afef;">in</span> <span style="color: #c678dd;">range</span>(<span style="color: #da8548; font-weight: bold;">20</span>)]
+<span style="color: #c678dd;">print</span>(<span style="color: #98be65;">"The sum of the numbers is: "</span> + <span style="color: #c678dd;">str</span>(calculate_sum(numbers)))
+</pre>
+</div>
+
+</section>
+<section id="slide-orgf7604a0">
+<h3 id="orgf7604a0">Composing</h3>
+<p>
+Chaining blocks through <code>sessions</code> is useful for some types of languages like
+<code>python</code> and <code>shells</code>. But that is not the only way. For me it can make sense to
+make the blocks as small as needed. That might differ depending on context. So
+we shall look more into how to compose different blocks. This is a feature
+called <code>noweb</code>.
+</p>
+
+
+<p>
+Let&rsquo;s take the previous python example.
+</p>
+
+<p>
+This is where we create our function
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python" id="python-calc"><span style="color: #51afef;">def</span> <span style="color: #c678dd;">calculate_sum</span>(numbers):
+    <span style="color: #c678dd;">sum</span> = <span style="color: #da8548; font-weight: bold;">0</span>
+    <span style="color: #51afef;">for</span> number <span style="color: #51afef;">in</span> <span style="color: #dcaeea;">numbers</span>:
+       <span style="color: #c678dd;">sum</span> += number
+
+    <span style="color: #51afef;">return</span> <span style="color: #c678dd;">sum</span>
+</pre>
+</div>
+
+<p>
+And here we create the data dn call the function
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #51afef;">def</span> <span style="color: #c678dd;">calculate_sum</span>(numbers):
+    <span style="color: #c678dd;">sum</span> = <span style="color: #da8548; font-weight: bold;">0</span>
+    <span style="color: #51afef;">for</span> number <span style="color: #51afef;">in</span> <span style="color: #dcaeea;">numbers</span>:
+       <span style="color: #c678dd;">sum</span> += number
+
+    <span style="color: #51afef;">return</span> <span style="color: #c678dd;">sum</span>
+<span style="color: #dcaeea;">numbers</span> = [x <span style="color: #51afef;">for</span> x <span style="color: #51afef;">in</span> <span style="color: #c678dd;">range</span>(<span style="color: #da8548; font-weight: bold;">20</span>)]
+<span style="color: #c678dd;">print</span>(<span style="color: #98be65;">"The sum of the numbers is: "</span> + <span style="color: #c678dd;">str</span>(calculate_sum(numbers)))
+</pre>
+</div>
+
+
+<p>
+Why not mix languages as well, <code>python</code> and <code>elisp</code> working together
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp" id="elisp-max-numbers"><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">/</span> <span style="color: #c678dd;">(</span><span style="color: #a9a1e1;">*</span> <span style="color: #da8548; font-weight: bold;">10</span> <span style="color: #98be65;">(</span><span style="color: #a9a1e1;">+</span> <span style="color: #da8548; font-weight: bold;">30</span> <span style="color: #da8548; font-weight: bold;">5</span> <span style="color: #da8548; font-weight: bold;">2</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span> <span style="color: #da8548; font-weight: bold;">5</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+
+
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #51afef;">def</span> <span style="color: #c678dd;">calculate_sum</span>(numbers):
+    <span style="color: #c678dd;">sum</span> = <span style="color: #da8548; font-weight: bold;">0</span>
+    <span style="color: #51afef;">for</span> number <span style="color: #51afef;">in</span> <span style="color: #dcaeea;">numbers</span>:
+       <span style="color: #c678dd;">sum</span> += number
+
+    <span style="color: #51afef;">return</span> <span style="color: #c678dd;">sum</span>
+<span style="color: #dcaeea;">numbers</span> = [x <span style="color: #51afef;">for</span> x <span style="color: #51afef;">in</span> <span style="color: #c678dd;">range</span>(<span style="color: #da8548; font-weight: bold;">74</span>)]
+<span style="color: #c678dd;">print</span>(<span style="color: #98be65;">"The sum of the numbers is: "</span> + <span style="color: #c678dd;">str</span>(calculate_sum(numbers)))
+</pre>
+</div>
+
+
+
+</section>
+<section id="slide-org136c180">
+<h3 id="org136c180">Note taking</h3>
+<p>
+Org-mode is an excellent tool for when studying, especially programming. Taking
+notes and experimenting with examples becomes very natural. Here is an example:
+</p>
+
+
+</section>
+<section id="slide-org6822cf1">
+<h3 id="org6822cf1">Our own image</h3>
+<p>
+I want to build my own <a href="https://www.docker.com">Docker</a> image and deploy an application on that image.
+These are the steps to make this happen:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #ECBE7B;">sudo</span> systemctl start docker
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-sh">docker ps
+</pre>
+</div>
+
+</section>
+<section id="slide-org0994f66">
+<h4 id="org0994f66">Build an image</h4>
+<p>
+I would like to build a docker image with <code>Python3</code> installed so that I can run
+my python3 code. I got the inspiration from this <a href="https://blog.realkinetic.com/building-minimal-docker-containers-for-python-applications-37d0272c52f3">minimal docker image</a> example.
+</p>
+
+<ul class="org-ul">
+<li><a id="org3858804"></a>Requirements<br />
+<p>
+We need to specify the requirements that we are demanding:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-text">Flask&gt;=0.12,&lt;0.13
+flask-restplus&gt;=0.9.2,&lt;0.10
+Flask-SSLify&gt;=0.1.5,&lt;0.2
+Flask-Admin&gt;=1.4.2,&lt;1.5
+gunicorn&gt;=19,&lt;20
+</pre>
+</div>
+</li>
+
+
+<li><a id="orga126cb2"></a>Dockerfile<br />
+<p>
+The <code>Dockerfile</code> specifying the commands for building the image looks like this:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-text">FROM python:3.6-alpine
+
+COPY requirements.txt /
+
+RUN pip install -r /requirements.txt
+
+COPY src/ /app
+WORKDIR /app
+
+CMD ["python", "app.py"]
+</pre>
+</div>
+
+<p>
+<code>From</code> create a layer from the <code>python:3.6-alpine</code> image:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-text" id="dockerfile-from">FROM python:3.6-alpine
+</pre>
+</div>
+
+<p>
+<code>Copy</code> adds files from your Docker client&rsquo;s current directory
+</p>
+<div class="org-src-container">
+
+<pre class="src src-text" id="dockerfile-copy">COPY requirements.txt /
+</pre>
+</div>
+
+<p>
+<code>Run</code> builds your application with <code>make</code>
+</p>
+<div class="org-src-container">
+
+<pre class="src src-text" id="dockerfile-run">RUN pip install -r /requirements.txt
+</pre>
+</div>
+
+<p>
+<code>Cmd</code> specifies what command to run within the container
+</p>
+<div class="org-src-container">
+
+<pre class="src src-text" id="dockerfile-cmd">CMD ["python", "app.py"]
+</pre>
+</div>
+
+
+<p>
+The Dockerfile then becomes:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-text">FROM python:3.6-alpine
+
+COPY requirements.txt /
+
+RUN pip install -r /requirements.txt
+
+COPY src/ /app
+WORKDIR /app
+
+CMD ["python", "app.py"]
+</pre>
+</div>
+</li>
+
+<li><a id="org45931f3"></a>The application<br />
+<p>
+This is my application that I want to deploy in the docker
+</p>
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #51afef;">for</span> i <span style="color: #51afef;">in</span> <span style="color: #c678dd;">range</span>(<span style="color: #da8548; font-weight: bold;">20</span>):
+    <span style="color: #c678dd;">print</span> <span style="color: #98be65;">"i has the value "</span> + <span style="color: #c678dd;">str</span>(i)
+</pre>
+</div>
+</li>
+
+<li><a id="org354fa06"></a>Create the image<br />
+<p>
+Build the image
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">docker build -t minimal_python .
+</pre>
+</div>
+
+<p>
+First we verify that the image is now available among the docker images
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">docker images
+</pre>
+</div>
+
+<p>
+Nice, let&rsquo;s try the image
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">docker run minimal_python
+</pre>
+</div>
+</li>
+</ul>
+
+</section>
+<section id="slide-orgdfe0319">
+<h4 id="orgdfe0319">Improve debugging</h4>
+<p>
+Start our docker image:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">docker run -it minimal_python /bin/sh
+</pre>
+</div>
+
+<p>
+Verify that it runs:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">docker ps
+</pre>
+</div>
+
+<p>
+Running inside the docker image
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #ECBE7B;">ls</span>
+</pre>
+</div>
+
+<p>
+I want to have a function which can return to me a
+<a href="https://www.emacswiki.org/emacs/TrampMode">TRAMP</a> compliant path to a
+running docker image. Implementing that in Emacs lisp can look like this:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-elisp"><span style="color: #51afef;">(</span><span style="color: #51afef;">defun</span> <span style="color: #c678dd;">docker-match</span> <span style="color: #c678dd;">(</span>name-regexp<span style="color: #c678dd;">)</span>
+  <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">return the name of the last docker image which matches the input</span>
+  <span style="color: #5B6268;">;; </span><span style="color: #5B6268;">NAME-REGEXP</span>
+  <span style="color: #c678dd;">(</span><span style="color: #51afef;">with-temp-buffer</span> <span style="color: #98be65;">(</span><span style="color: #a9a1e1;">shell-command</span> <span style="color: #98be65;">"docker ps"</span> t<span style="color: #98be65;">)</span>
+                    <span style="color: #98be65;">(</span><span style="color: #a9a1e1;">goto-char</span> <span style="color: #a9a1e1;">(</span><span style="color: #a9a1e1;">point-min</span><span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span>
+                    <span style="color: #98be65;">(</span><span style="color: #51afef;">let</span> <span style="color: #a9a1e1;">(</span><span style="color: #51afef;">(</span>name-match <span style="color: #51afef;">'</span><span style="color: #c678dd;">()</span><span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span>
+                      <span style="color: #a9a1e1;">(</span><span style="color: #51afef;">while</span> <span style="color: #51afef;">(</span><span style="color: #a9a1e1;">not</span> <span style="color: #c678dd;">(</span><span style="color: #a9a1e1;">eobp</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+                        <span style="color: #51afef;">(</span><span style="color: #51afef;">let</span> <span style="color: #c678dd;">(</span><span style="color: #98be65;">(</span>current-name <span style="color: #a9a1e1;">(</span><span style="color: #a9a1e1;">string-trim</span> <span style="color: #51afef;">(</span><span style="color: #a9a1e1;">thing-at-point</span> <span style="color: #51afef;">'</span><span style="color: #ECBE7B;">line</span><span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>
+                          <span style="color: #c678dd;">(</span><span style="color: #51afef;">if</span> <span style="color: #98be65;">(</span><span style="color: #a9a1e1;">string-match</span> name-regexp current-name<span style="color: #98be65;">)</span>
+                              <span style="color: #98be65;">(</span><span style="color: #51afef;">progn</span>
+                                <span style="color: #a9a1e1;">(</span><span style="color: #a9a1e1;">end-of-line</span><span style="color: #a9a1e1;">)</span>
+                                <span style="color: #a9a1e1;">(</span><span style="color: #51afef;">setq</span> name-match <span style="color: #51afef;">(</span><span style="color: #a9a1e1;">format</span> <span style="color: #98be65;">"%s"</span> <span style="color: #c678dd;">(</span><span style="color: #a9a1e1;">thing-at-point</span> <span style="color: #51afef;">'</span><span style="color: #ECBE7B;">symbol</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+                        <span style="color: #51afef;">(</span><span style="color: #a9a1e1;">forward-line</span> <span style="color: #da8548; font-weight: bold;">1</span><span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span>
+                      name-match<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+
+<span style="color: #51afef;">(</span><span style="color: #51afef;">defun</span> <span style="color: #c678dd;">docker-path</span> <span style="color: #c678dd;">(</span>name-regexp  <span style="color: #ECBE7B;">&amp;optional</span> extended-path<span style="color: #c678dd;">)</span>
+  <span style="color: #c678dd;">(</span><span style="color: #51afef;">if</span> extended-path
+      <span style="color: #98be65;">(</span><span style="color: #a9a1e1;">format</span> <span style="color: #98be65;">"/docker:%s:/%s"</span> <span style="color: #a9a1e1;">(</span>docker-match name-regexp<span style="color: #a9a1e1;">)</span> extended-path<span style="color: #98be65;">)</span>
+    <span style="color: #98be65;">(</span><span style="color: #a9a1e1;">format</span> <span style="color: #98be65;">"/docker:%s:/"</span> <span style="color: #a9a1e1;">(</span>docker-match name-regexp<span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+
+<span style="color: #51afef;">(</span>docker-path <span style="color: #98be65;">"minimal_python"</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+
+<p>
+Create a session which runs from inside the docker. Here we utilize the function
+we just added to set the :dir. This utilizes TRAMP to execute the block inside
+the Docker image.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">$</td>
+<td class="org-left">[1;34mapp[m</td>
+<td class="org-left">[1;34mhome[m</td>
+<td class="org-left">[1;34mproc[m</td>
+<td class="org-left">[1;34msbin[m</td>
+<td class="org-left">[1;34musr[m</td>
+</tr>
+
+<tr>
+<td class="org-left">[1;34mbin[m</td>
+<td class="org-left">[1;34mlib[m</td>
+<td class="org-left">[0;0mrequirements.txt[m</td>
+<td class="org-left">[1;34msrv[m</td>
+<td class="org-left">[1;34mvar[m</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">[1;34mdev[m</td>
+<td class="org-left">[1;34mmedia[m</td>
+<td class="org-left">[1;34mroot[m</td>
+<td class="org-left">[1;34msys[m</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">[1;34metc[m</td>
+<td class="org-left">[1;34mmnt[m</td>
+<td class="org-left">[1;34mrun[m</td>
+<td class="org-left">[1;34mtmp[m</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Now we want to run a block in the previous session <code>session-docker-agent</code>. When
+I held this presentation there was a question on how to create a block which can
+automatically use the same session as the previous session in the file.
+</p>
+
+<p>
+Now that was a really good question. The solution that I came up with later is
+worth showing here I think cause it also highlights the strengths of Emacs and
+lisp. I decided to create a function that can find the previous header argument
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-elisp"><span style="color: #51afef;">(</span><span style="color: #51afef;">defun</span> <span style="color: #c678dd;">org-babel-previous-session</span> <span style="color: #c678dd;">()</span>
+  <span style="color: #83898d;">"Find the previous src code block which contains the session argument and</span>
+<span style="color: #83898d;">return it together with the language"</span>
+  <span style="color: #c678dd;">(</span><span style="color: #51afef;">interactive</span><span style="color: #c678dd;">)</span>
+  <span style="color: #c678dd;">(</span><span style="color: #51afef;">save-excursion</span>
+    <span style="color: #98be65;">(</span><span style="color: #51afef;">let</span> <span style="color: #a9a1e1;">(</span><span style="color: #51afef;">(</span>session nil<span style="color: #51afef;">)</span>
+          <span style="color: #51afef;">(</span>language nil<span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span>
+      <span style="color: #a9a1e1;">(</span><span style="color: #51afef;">while</span> <span style="color: #51afef;">(</span><span style="color: #51afef;">and</span> <span style="color: #c678dd;">(</span><span style="color: #a9a1e1;">re-search-backward</span> <span style="color: #dcaeea;">org-babel-src-block-regexp</span> nil t<span style="color: #c678dd;">)</span> <span style="color: #c678dd;">(</span><span style="color: #a9a1e1;">not</span> session<span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+        <span style="color: #51afef;">(</span><span style="color: #a9a1e1;">goto-char</span> <span style="color: #c678dd;">(</span><span style="color: #a9a1e1;">match-beginning</span> <span style="color: #da8548; font-weight: bold;">0</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+        <span style="color: #51afef;">(</span><span style="color: #51afef;">let*</span> <span style="color: #c678dd;">(</span><span style="color: #98be65;">(</span>block-info <span style="color: #a9a1e1;">(</span><span style="color: #a9a1e1;">org-babel-get-src-block-info</span><span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span>
+               <span style="color: #98be65;">(</span>block-lang <span style="color: #a9a1e1;">(</span><span style="color: #a9a1e1;">nth</span> <span style="color: #da8548; font-weight: bold;">0</span> block-info<span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span>
+               <span style="color: #98be65;">(</span>block-params <span style="color: #a9a1e1;">(</span><span style="color: #a9a1e1;">nth</span> <span style="color: #da8548; font-weight: bold;">2</span> block-info<span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span>
+               <span style="color: #98be65;">(</span>block-session <span style="color: #a9a1e1;">(</span><span style="color: #a9a1e1;">cdr</span> <span style="color: #51afef;">(</span><span style="color: #a9a1e1;">assoc</span> <span style="color: #c678dd;">:session</span> block-params<span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>
+          <span style="color: #c678dd;">(</span><span style="color: #51afef;">unless</span> <span style="color: #98be65;">(</span><span style="color: #a9a1e1;">string=</span> <span style="color: #98be65;">"none"</span> block-session<span style="color: #98be65;">)</span>
+            <span style="color: #98be65;">(</span><span style="color: #51afef;">setq</span> session block-session<span style="color: #98be65;">)</span>
+            <span style="color: #98be65;">(</span><span style="color: #51afef;">setq</span> language block-lang<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span>
+      <span style="color: #a9a1e1;">(</span><span style="color: #a9a1e1;">format</span> <span style="color: #98be65;">"%s :session %s"</span> language session<span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+
+<span style="color: #51afef;">(</span>org-babel-previous-session<span style="color: #51afef;">)</span>
+</pre>
+</div>
+
+<p>
+Snippets in Emacs are very powerful:
+</p>
+<pre class="example" id="orge481c39">
+# -*- mode: snippet -*-
+# name: previous-session-block
+# key: &lt;ss
+# --
+
+#+BEGIN_SRC `(my/org-babel-previous-session)`
+
+#+END_SRC
+</pre>
+
+<p>
+Let&rsquo;s try if the solution worked
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">python app/app.py
+</pre>
+</div>
+
+</section>
+<section id="slide-orgbd84f6f">
+<h3 id="orgbd84f6f">Performance analysis</h3>
+
+<p>
+Let&rsquo;s make a fun little investigation. Assume we have some data of a signal and
+we want to make an algorithm that tracks the 1-d signal. This presentation is a
+little bit too short to make a real algorithm and data in so we will fake it
+instead
+</p>
+
+</section>
+<section id="slide-org054c9db">
+<h4 id="org054c9db">Synthesize the data</h4>
+<p>
+There is not room here for creating our own algorithm, so instead we will fake
+the truth and estimates. To generate the true signal and the estimate we will
+use a block of elisp code.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">  <span style="color: #51afef;">(</span><span style="color: #a9a1e1;">mapcar</span> <span style="color: #c678dd;">(</span><span style="color: #51afef;">lambda</span> <span style="color: #98be65;">(</span>i<span style="color: #98be65;">)</span>
+            <span style="color: #98be65;">(</span><span style="color: #a9a1e1;">list</span> i <span style="color: #a9a1e1;">(</span><span style="color: #a9a1e1;">+</span> <span style="color: #51afef;">(</span><span style="color: #a9a1e1;">random</span> <span style="color: #da8548; font-weight: bold;">4</span><span style="color: #51afef;">)</span> <span style="color: #51afef;">(</span><span style="color: #a9a1e1;">-</span> i <span style="color: #da8548; font-weight: bold;">2</span><span style="color: #51afef;">)</span><span style="color: #a9a1e1;">)</span><span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span>
+          <span style="color: #c678dd;">(</span><span style="color: #a9a1e1;">number-sequence</span> <span style="color: #da8548; font-weight: bold;">1</span> <span style="color: #da8548; font-weight: bold;">20</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+
+<table id="org8a0bcad" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> Truth and Estimate</caption>
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Truth</th>
+<th scope="col" class="org-right">Estimate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-right">3</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-right">4</td>
+</tr>
+
+<tr>
+<td class="org-right">6</td>
+<td class="org-right">7</td>
+</tr>
+
+<tr>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+</tr>
+
+<tr>
+<td class="org-right">8</td>
+<td class="org-right">8</td>
+</tr>
+
+<tr>
+<td class="org-right">9</td>
+<td class="org-right">9</td>
+</tr>
+
+<tr>
+<td class="org-right">10</td>
+<td class="org-right">11</td>
+</tr>
+
+<tr>
+<td class="org-right">11</td>
+<td class="org-right">12</td>
+</tr>
+
+<tr>
+<td class="org-right">12</td>
+<td class="org-right">11</td>
+</tr>
+
+<tr>
+<td class="org-right">13</td>
+<td class="org-right">14</td>
+</tr>
+
+<tr>
+<td class="org-right">14</td>
+<td class="org-right">12</td>
+</tr>
+
+<tr>
+<td class="org-right">15</td>
+<td class="org-right">16</td>
+</tr>
+
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">16</td>
+</tr>
+
+<tr>
+<td class="org-right">17</td>
+<td class="org-right">16</td>
+</tr>
+
+<tr>
+<td class="org-right">18</td>
+<td class="org-right">16</td>
+</tr>
+
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">19</td>
+</tr>
+
+<tr>
+<td class="org-right">20</td>
+<td class="org-right">21</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+In order to get the table of data more comprehensive we utilize another block to
+post process the result. This block adds a header to the table.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp" id="add-header"><span style="color: #51afef;">(</span><span style="color: #a9a1e1;">cons</span> <span style="color: #51afef;">'</span><span style="color: #ECBE7B;">hline</span> <span style="color: #c678dd;">(</span><span style="color: #a9a1e1;">cons</span> <span style="color: #51afef;">'</span><span style="color: #98be65;">(</span><span style="color: #98be65;">"Truth"</span> <span style="color: #98be65;">"Estimate"</span><span style="color: #98be65;">)</span> <span style="color: #98be65;">(</span><span style="color: #a9a1e1;">cons</span> <span style="color: #51afef;">'</span><span style="color: #ECBE7B;">hline</span> tbl<span style="color: #98be65;">)</span><span style="color: #c678dd;">)</span><span style="color: #51afef;">)</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-orgfd6e6b1">
+<h4 id="orgfd6e6b1">Visualize estimate and truth</h4>
+<p>
+Here is some python code which can plot data using the matplotlib. So as a
+variable to this code block we will pass the numbers from the <code>est-truth-data</code> block.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #51afef;">import</span> numpy <span style="color: #51afef;">as</span> np
+<span style="color: #51afef;">import</span> matplotlib
+matplotlib.use(<span style="color: #98be65;">'Agg'</span>)
+<span style="color: #51afef;">from</span> matplotlib <span style="color: #51afef;">import</span> pyplot <span style="color: #51afef;">as</span> plt
+
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">Convert list to numpy array</span>
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">The need for using 1 index here is because I added the box around truth and</span>
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">estimate in the table so it interprests the first value to be truth and estimate</span>
+<span style="color: #dcaeea;">truth</span> = np.asarray(data)[<span style="color: #da8548; font-weight: bold;">1</span>:, <span style="color: #da8548; font-weight: bold;">0</span>]
+<span style="color: #dcaeea;">est</span> = np.asarray(data)[<span style="color: #da8548; font-weight: bold;">1</span>:, <span style="color: #da8548; font-weight: bold;">1</span>]
+<span style="color: #5B6268;"># </span><span style="color: #5B6268;">Plot</span>
+<span style="color: #dcaeea;">fig</span>=plt.figure()
+plt.plot(truth, color=<span style="color: #98be65;">"g"</span>, label=<span style="color: #98be65;">"Truth"</span>)
+plt.plot(est, marker=<span style="color: #98be65;">"x"</span>, label=<span style="color: #98be65;">"Estimate"</span>)
+plt.legend(loc=<span style="color: #98be65;">'upper left'</span>)
+plt.xlabel(<span style="color: #98be65;">"Sample"</span>)
+plt.ylabel(<span style="color: #98be65;">"Value"</span>)
+plt.title(<span style="color: #98be65;">"Tracking"</span>)
+plt.savefig(<span style="color: #98be65;">'.images/est_vs_truth.png'</span>)
+<span style="color: #98be65;">'.images/est_vs_truth.png'</span> <span style="color: #5B6268;"># </span><span style="color: #5B6268;">return this to org-mode</span>
+</pre>
+</div>
+
+<p class="forwardlink">
+<a href="" class="forwardlink"></a>
+</p>
+
+<p>
+Cool, the performance of the fake algorithm is not that bad. I think we can be
+pretty happy with it. let&rsquo;s see if we can gather some more information about
+it&rsquo;s performance.
+</p>
+
+<p>
+It&rsquo;s of course possible to use other languages for plotting like <code>Octave</code>
+</p>
+
+</section>
+<section id="slide-org5e971e5">
+<h4 id="org5e971e5">Performance numbers</h4>
+<p>
+A table can be a good way of displaying the data that we have and analyze the
+values. Tables in Emacs can use <code>calc</code> syntax org <code>elisp</code> code to make the table
+formulas.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 2:</span> Evaluation numbers</caption>
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Truth</th>
+<th scope="col" class="org-right">Estimate</th>
+<th scope="col" class="org-right">Error</th>
+<th scope="col" class="org-right">Absolute error</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">0</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-right">2</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-right">5</td>
+<td class="org-right">-1</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-right">6</td>
+<td class="org-right">-1</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">6</td>
+<td class="org-right">4</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-right">7</td>
+<td class="org-right">7</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">8</td>
+<td class="org-right">6</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-right">9</td>
+<td class="org-right">7</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-right">10</td>
+<td class="org-right">11</td>
+<td class="org-right">-1</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">11</td>
+<td class="org-right">12</td>
+<td class="org-right">-1</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">12</td>
+<td class="org-right">10</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-right">13</td>
+<td class="org-right">12</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">14</td>
+<td class="org-right">12</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+</tr>
+
+<tr>
+<td class="org-right">15</td>
+<td class="org-right">15</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">16</td>
+<td class="org-right">17</td>
+<td class="org-right">-1</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">17</td>
+<td class="org-right">18</td>
+<td class="org-right">-1</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">18</td>
+<td class="org-right">19</td>
+<td class="org-right">-1</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">19</td>
+<td class="org-right">19</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+</tr>
+
+<tr>
+<td class="org-right">20</td>
+<td class="org-right">18</td>
+<td class="org-right">2</td>
+<td class="org-right">2</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">Number of values</td>
+<td class="org-right">20</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">Mean error</td>
+<td class="org-right">0.5</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">RMSE</td>
+<td class="org-right">1.378404875209022</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+In order to get the values from the other table I am using <a href="https://orgmode.org/manual/References.html#index-remote-references-352">remote references</a>. To
+refer to the values of the other table. The formulas that the table accepts
+should either follow the <code>calc</code> syntax or <code>elisp</code>.
+</p>
+
+<p>
+To calculate the mean value we can define a code block like this
+And reference it in the table formula
+</p>
+
+<p>
+Any code block can of course be used, not only the ones of <code>elisp</code>. This is
+<code>python</code> block which calculates the <code>rmse</code> value:
+</p>
+</section>
+<section id="slide-orga579d3f">
+<h4 id="orga579d3f">Describe the flow</h4>
+<p>
+I would like to describe the flow better. It would be great if we could
+visualize it, perhaps in a flow chart.
+</p>
+
+
+<div id="org3fc4f80" class="figure">
+<p><img src=".images/flow.png" alt="flow.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org07ce5e1">
+<h4 id="org07ce5e1">Emacs Calc</h4>
+<p>
+Now I thought that this article deserved some bonus information about Emacs
+calculator. I knew about it before but writing this part got me interested into
+knowing more. And I think that it was a good example of one of the aspects that
+I love about Org-mode which is to be able to experiment. I found some useful
+<a href="https://github.com/dfeich/org-babel-examples/blob/master/calc/calc.org">calc-babel-examples</a> and <a href="http://ehneilsen.net/notebook/orgExamples/org-examples.html">org-examples</a> which I took inspiration from.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-calc">10 + 3 * 5 / 2.0
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-calc">cos(180)
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-calc">fsolve(x*2+x=4,x)
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-calc">deriv(sqrt(x),x)
+</pre>
+</div>
+
+<p>
+Calc is available in tables as well
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 3:</span> Awesome calc</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Expression</th>
+<th scope="col" class="org-left">Derivative</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">sqrt(x)</td>
+<td class="org-left">0.5 / sqrt(x)</td>
+</tr>
+
+<tr>
+<td class="org-left">cos(x)</td>
+<td class="org-left">sin(x) pi / -180</td>
+</tr>
+
+<tr>
+<td class="org-left">x<sup>2</sup></td>
+<td class="org-left">2 x</td>
+</tr>
+
+<tr>
+<td class="org-left">1/x<sup>2</sup></td>
+<td class="org-left">-2 / x<sup>3</sup></td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-org639594b">
+<h3 id="org639594b">Summary</h3>
+
+</section>
+<section id="slide-orgeb84798">
+<h4 id="orgeb84798">Org-mode + literate programming</h4>
+<ul>
+<li class="fragment roll-in"><code>Context</code></li>
+<li class="fragment roll-in"><code>Documentation</code></li>
+<li class="fragment roll-in"><code>Emacs</code></li>
+<li class="fragment roll-in"><code>Exports</code></li>
+
+</ul>
+
+</section>
+<section id="slide-orga0c90c9">
+<h4 id="orga0c90c9">Thanks for listening</h4>
+
+<div id="org3591155" class="figure">
+<p><img src="./images/org-mode-logo.jpg" alt="org-mode-logo.jpg" />
+</p>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="/home/laurent/.emacs.d/.local/straight/build-28.2/revealjs/dist/reveal.js"></script>
+<script src="/home/laurent/.emacs.d/.local/straight/build-28.2/revealjs/plugin/markdown/markdown.js"></script>
+<script src="/home/laurent/.emacs.d/.local/straight/build-28.2/revealjs/plugin/notes/notes.js"></script>
+<script src="/home/laurent/.emacs.d/.local/straight/build-28.2/revealjs/plugin/search/search.js"></script>
+<script src="/home/laurent/.emacs.d/.local/straight/build-28.2/revealjs/plugin/zoom/zoom.js"></script>
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: false,
+progress: true,
+history: false,
+center: true,
+slideNumber: false,
+rollingLinks: false,
+keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+hashOneBasedIndex: false,
+pdfSeparateFragments: true,
+overview: true,
+
+transition: 'slide',
+transitionSpeed: 'default',
+
+// Plugins with reveal.js 4.x
+plugins: [ RevealMarkdown, RevealNotes, RevealSearch, RevealZoom ],
+
+// Optional libraries used to extend reveal.js
+dependencies: [
+]
+
+});
+</script>
+</body>
+</html>

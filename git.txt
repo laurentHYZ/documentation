@@ -1,0 +1,313 @@
+                              ━━━━━━━━━━━
+                               SOME TEST
+
+                                John Doe
+                              ━━━━━━━━━━━
+
+
+Table of Contents
+─────────────────
+
+1. hello
+.. 1. where are we now?
+.. 2. Let’s create the .git directory
+.. 3. Let’s hash something
+.. 4. let’s use the first 4 characters
+.. 5. Where did git put it?
+.. 6. Can we simply look at the object?
+.. 7. Let’s create `hash_to_dir' utility function
+.. 8. Offerzen.com
+.. 9. flashcards
+
+
+
+
+
+1 hello
+═══════
+
+1.1 where are we now?
+─────────────────────
+
+  ┌────
+  │ echo "the working directory is: $(dirs +0)"
+  │ git status 2>&1 || echo GIt is not happy
+  └────
+
+  ┌────
+  │ the working directory is: ~/Documents/spudlyo/tmp
+  │ fatal: not a git repository (or any of the parent directories): .git
+  │ GIt is not happy
+  └────
+
+
+1.2 Let’s create the .git directory
+───────────────────────────────────
+
+  ┌────
+  │ mkdir -p .git
+  │ mkdir -p .git/objects
+  │ mkdir -p .git/refs
+  │ mkdir -p .git/refs/heads
+  │ echo "ref: refs/heads/master" > .git/HEAD
+  │ tree .git
+  │ git status 2>&1 && echo Git is happy
+  └────
+
+  ┌────
+  │ .git
+  │ ├── HEAD
+  │ ├── objects
+  │ └── refs
+  │     └── heads
+  │ 
+  │ 3 directories, 1 file
+  │ On branch master
+  │ 
+  │ No commits yet
+  │ 
+  │ nothing to commit (create/copy files and use "git add" to track)
+  │ Git is happy
+  └────
+
+
+1.3 Let’s hash something
+────────────────────────
+
+  We are going to hash the string “nihao asdflkdj ” by using the git
+  plumbing command `hash object'.
+
+  ┌────
+  │ echo -n "nihao asdflkdj " | git hash-object --stdin -w
+  └────
+
+  ┌────
+  │ 5ac102dbd33f598ff37daff32ee4ed3d9243386f
+  └────
+
+
+1.4 let’s use the first 4 characters
+────────────────────────────────────
+
+  In order to ID a file it is enough to use the first 4 characters of
+  the hash. It would be very nice if I could inline invoke a function
+  that would return those first 4 characters, let’s create that
+  short_hash function within code.inc shall we. This function should
+  take a line of characters as an argument and return the first 4. If I
+  pick the line “somehash”, then if will obtain `some'. The first 4
+  characters of hashobject are: `5ac1'.
+
+
+1.5 Where did git put it?
+─────────────────────────
+
+  Let’s see how it was stored in the `.git' directory.
+  ┌────
+  │ tree .git
+  └────
+
+  ┌────
+  │ .git
+  │ ├── HEAD
+  │ ├── objects
+  │ │   └── 5a
+  │ │       └── c102dbd33f598ff37daff32ee4ed3d9243386f
+  │ └── refs
+  │     └── heads
+  │ 
+  │ 4 directories, 2 files
+  └────
+
+
+  What is happening now is that .git shards the directory based on the
+  first 2 bytes of the hash. This is done because in general file
+  systems do not like to have too many files within one single
+  directory.
+
+
+1.6 Can we simply look at the object?
+─────────────────────────────────────
+
+  We can NOT look at the object directly because git stores in
+  compressed format. However it is possible to use the `git cat-file -p'
+  command to take a peak, note that the `-p' argument stands for
+  pretty-print.
+  ┌────
+  │ git cat-file -p 5ac1
+  └────
+
+  ┌────
+  │ nihao asdflkdj 
+  └────
+
+
+1.7 Let’s create `hash_to_dir' utility function
+───────────────────────────────────────────────
+
+  `hash_to_dir' will take a 40-character hash as an argument and output
+  the relative path of that hash location in the database.
+  ┌────
+  │ echo 
+  └────
+
+  ┌────
+
+  └────
+
+
+
+  ┌────
+  │ tree .git
+  └────
+
+  ┌────
+  │ .git
+  │ ├── HEAD
+  │ ├── objects
+  │ │   └── 5a
+  │ │       └── c102dbd33f598ff37daff32ee4ed3d9243386f
+  │ └── refs
+  │     └── heads
+  │ 
+  │ 4 directories, 2 files
+  └────
+
+
+1.8 Offerzen.com
+────────────────
+
+  ━━━━━━━━━━━━━━
+   Name    Mark 
+  ──────────────
+   Alice     79 
+   Bob       19 
+   Claire    50 
+   Dave      49 
+   Eve       87 
+   Frank     73 
+  ━━━━━━━━━━━━━━
+
+  ┌────
+  │ function isPass(student) {
+  │     var name = student[0];
+  │     var mark = student[1];
+  │     return mark >= requiredMark(name);
+  │ }
+  │ 
+  │ function requiredMark(name) {
+  │     return 50 + name.length * 5;
+  │ }
+  └────
+
+  ┌────
+  │ undefined
+  └────
+
+
+  ┌────
+  │   function isPass(student) {
+  │       var name = student[0];
+  │       var mark = student[1];
+  │       return mark >= requiredMark(name);
+  │   }
+  │   
+  │   function requiredMark(name) {
+  │       return 50 + name.length * 5;
+  │   }
+  │ 
+  │   return students.map(function(student) {
+  │       var name = student[0];
+  │       var pass = isPass(student) ? 'Passed' : 'Failed';
+  │       return [
+  │           name,
+  │           requiredMark(name),
+  │           pass
+  │       ];
+  │   });
+  └────
+
+  ┌────
+  │ [
+  │   [ 'Alice', 75, 'Passed' ],
+  │   [ 'Bob', 65, 'Failed' ],
+  │   [ 'Claire', 80, 'Failed' ],
+  │   [ 'Dave', 70, 'Failed' ],
+  │   [ 'Eve', 65, 'Passed' ],
+  │   [ 'Frank', 75, 'Failed' ]
+  │ ]
+  └────
+
+
+  ┌────
+  │     function average(marks) {
+  │         return Math.round(marks.reduce(function(accumulator, next) {
+  │             return accumulator + next;
+  │         }, 0) / marks.length);
+  │     }
+  │   
+  │     function standardDeviation(marks) {
+  │         var marksAverage = average(marks);
+  │         var sd = Math.sqrt(marks.reduce(function(accumulator, next) {
+  │             return accumulator + Math.pow(next - marksAverage, 2);
+  │         }, 0) / (marks.length - 1))
+  │         return Math.round(sd);
+  │     }
+  │ 
+  │   var marks = students.map(function(student) {
+  │       return student[1];
+  │   });
+  │   console.log('Count:', marks.length);
+  │   console.log('Average:', average(marks));
+  │   console.log('Standard deviation:', standardDeviation(marks));
+  └────
+
+  ┌────
+  │ Count: 6
+  │ Average: 60
+  │ Standard deviation: 25
+  └────
+
+
+
+
+
+  ┌────
+  │ let a: u32 = 8;
+  │ println!("{}", a.to_string());
+  └────
+
+  ┌────
+  │ cargoaqTowG
+  └────
+
+
+1.9 flashcards
+──────────────
+
+  ┌────
+  │ echo "---pre ----"
+  └────
+
+  ┌────
+  │ ---pre ----
+  └────
+
+
+  ┌────
+  │ echo "---post----"
+  └────
+
+  ┌────
+  │ ---post----
+  └────
+
+
+  —pre —-
+  • renew middle -
+  —post—-
+
+  —pre —-
+  • middle -
+  —post—- —pre —-
+  • middle -
+  —post—-

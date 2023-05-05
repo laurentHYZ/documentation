@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2023-05-04 Thu 15:42 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>some test</title>
+<meta name="author" content="John Doe" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">some test</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgd675a1d">1. hello</a>
+<ul>
+<li><a href="#org24c196e">1.1. where are we now?</a></li>
+<li><a href="#org1dcac02">1.2. Let&rsquo;s create the .git directory</a></li>
+<li><a href="#orgd4d5f53">1.3. Let&rsquo;s hash something</a></li>
+<li><a href="#org94698fa">1.4. let&rsquo;s use the first 4 characters</a></li>
+<li><a href="#orgc78591a">1.5. Where did git put it?</a></li>
+<li><a href="#orgad93689">1.6. Can we simply look at the object?</a></li>
+<li><a href="#orge29dc0b">1.7. Let&rsquo;s create <code>hash_to_dir</code> utility function</a></li>
+<li><a href="#org76c6e15">1.8. Offerzen.com</a></li>
+<li><a href="#org505380f">1.9. flashcards</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd675a1d" class="outline-2">
+<h2 id="orgd675a1d"><span class="section-number-2">1.</span> hello</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org24c196e" class="outline-3">
+<h3 id="org24c196e"><span class="section-number-3">1.1.</span> where are we now?</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #ECBE7B;">echo</span> <span style="color: #98be65;">"the working directory is: </span><span style="color: #51afef; font-weight: bold;">$(</span><span style="color: #51afef; font-weight: bold;">dirs +0</span><span style="color: #51afef; font-weight: bold;">)</span><span style="color: #98be65;">"</span>
+<span style="color: #ECBE7B;">git</span> status <span style="color: #da8548; font-weight: bold;">2</span>&gt;&amp;<span style="color: #da8548; font-weight: bold;">1</span> || <span style="color: #ECBE7B;">echo</span> GIt is not happy
+</pre>
+</div>
+
+<pre class="example">
+the working directory is: ~/Documents/spudlyo/tmp
+fatal: not a git repository (or any of the parent directories): .git
+GIt is not happy
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org1dcac02" class="outline-3">
+<h3 id="org1dcac02"><span class="section-number-3">1.2.</span> Let&rsquo;s create the .git directory</h3>
+<div class="outline-text-3" id="text-1-2">
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #ECBE7B;">mkdir</span> -p .git
+<span style="color: #ECBE7B;">mkdir</span> -p .git/objects
+<span style="color: #ECBE7B;">mkdir</span> -p .git/refs
+<span style="color: #ECBE7B;">mkdir</span> -p .git/refs/heads
+<span style="color: #ECBE7B;">echo</span> <span style="color: #98be65;">"ref: refs/heads/master"</span> &gt; .git/HEAD
+tree .git
+<span style="color: #ECBE7B;">git</span> status <span style="color: #da8548; font-weight: bold;">2</span>&gt;&amp;<span style="color: #da8548; font-weight: bold;">1</span> &amp;&amp; <span style="color: #ECBE7B;">echo</span> Git is happy
+</pre>
+</div>
+
+<pre class="example" id="org83351d4">
+.git
+├── HEAD
+├── objects
+└── refs
+    └── heads
+
+3 directories, 1 file
+On branch master
+
+No commits yet
+
+nothing to commit (create/copy files and use "git add" to track)
+Git is happy
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orgd4d5f53" class="outline-3">
+<h3 id="orgd4d5f53"><span class="section-number-3">1.3.</span> Let&rsquo;s hash something</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+We are going to hash the string &ldquo;nihao asdflkdj &rdquo; by using the git plumbing command <code>hash object</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org253fb08"><span style="color: #ECBE7B;">echo</span> -n <span style="color: #98be65;">"nihao asdflkdj "</span> | <span style="color: #ECBE7B;">git</span> hash-object --stdin -w
+</pre>
+</div>
+
+<pre class="example">
+5ac102dbd33f598ff37daff32ee4ed3d9243386f
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org94698fa" class="outline-3">
+<h3 id="org94698fa"><span class="section-number-3">1.4.</span> let&rsquo;s use the first 4 characters</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+In order to ID a file it is enough to use the first 4 characters of the hash.
+It would be very nice if I could inline invoke a function that would return those first 4 characters, let&rsquo;s create that short<sub>hash</sub> function within code.inc shall we.
+This function should take a line of characters as an argument and return the first 4.
+If I pick the line &ldquo;somehash&rdquo;, then if will obtain <code>some</code>.
+The first 4 characters of hashobject are: <code>5ac1</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc78591a" class="outline-3">
+<h3 id="orgc78591a"><span class="section-number-3">1.5.</span> Where did git put it?</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+Let&rsquo;s see how it was stored in the <code>.git</code> directory.
+</p>
+<div class="org-src-container">
+<pre class="src src-shell">tree .git
+</pre>
+</div>
+
+<pre class="example">
+.git
+├── HEAD
+├── objects
+│   └── 5a
+│       └── c102dbd33f598ff37daff32ee4ed3d9243386f
+└── refs
+    └── heads
+
+4 directories, 2 files
+</pre>
+
+
+<p>
+What is happening now is that .git shards the directory based on the first 2 bytes of the hash.
+This is done because in general file systems do not like to have too many files within one single directory.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgad93689" class="outline-3">
+<h3 id="orgad93689"><span class="section-number-3">1.6.</span> Can we simply look at the object?</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+We can NOT look at the object directly because git stores in compressed format. However it is possible to use the <code>git cat-file -p</code> command to take a peak, note that the <code>-p</code> argument stands for pretty-print.
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="orgd510c6f"><span style="color: #ECBE7B;">git</span> cat-file -p 5ac1
+</pre>
+</div>
+
+<pre class="example">
+nihao asdflkdj 
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orge29dc0b" class="outline-3">
+<h3 id="orge29dc0b"><span class="section-number-3">1.7.</span> Let&rsquo;s create <code>hash_to_dir</code> utility function</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+<code>hash_to_dir</code> will take a 40-character hash as an argument and output the relative path of that hash location in the database.
+</p>
+<div class="org-src-container">
+<pre class="src src-shell"><span style="color: #ECBE7B;">echo</span> 
+</pre>
+</div>
+
+<pre class="example">
+
+</pre>
+
+
+
+<div class="org-src-container">
+<pre class="src src-shell">tree .git
+</pre>
+</div>
+
+<pre class="example">
+.git
+├── HEAD
+├── objects
+│   └── 5a
+│       └── c102dbd33f598ff37daff32ee4ed3d9243386f
+└── refs
+    └── heads
+
+4 directories, 2 files
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org76c6e15" class="outline-3">
+<h3 id="org76c6e15"><span class="section-number-3">1.8.</span> Offerzen.com</h3>
+<div class="outline-text-3" id="text-1-8">
+<table id="orgb25bd91" border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Name</th>
+<th scope="col" class="org-right">Mark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Alice</td>
+<td class="org-right">79</td>
+</tr>
+
+<tr>
+<td class="org-left">Bob</td>
+<td class="org-right">19</td>
+</tr>
+
+<tr>
+<td class="org-left">Claire</td>
+<td class="org-right">50</td>
+</tr>
+
+<tr>
+<td class="org-left">Dave</td>
+<td class="org-right">49</td>
+</tr>
+
+<tr>
+<td class="org-left">Eve</td>
+<td class="org-right">87</td>
+</tr>
+
+<tr>
+<td class="org-left">Frank</td>
+<td class="org-right">73</td>
+</tr>
+</tbody>
+</table>
+
+<div class="org-src-container">
+<pre class="src src-js" id="org6081dc1"><span style="color: #51afef;">function</span> <span style="color: #c678dd;">isPass</span>(<span style="color: #dcaeea;">student</span>) {
+    <span style="color: #51afef;">var</span> <span style="color: #dcaeea;">name</span> = student[<span style="color: #da8548; font-weight: bold;">0</span>];
+    <span style="color: #51afef;">var</span> <span style="color: #dcaeea;">mark</span> = student[<span style="color: #da8548; font-weight: bold;">1</span>];
+    <span style="color: #51afef;">return</span> mark &gt;= requiredMark(name);
+}
+
+<span style="color: #51afef;">function</span> <span style="color: #c678dd;">requiredMark</span>(<span style="color: #dcaeea;">name</span>) {
+    <span style="color: #51afef;">return</span> <span style="color: #da8548; font-weight: bold;">50</span> + name.length * <span style="color: #da8548; font-weight: bold;">5</span>;
+}
+</pre>
+</div>
+
+<pre class="example">
+undefined
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-js" id="org5044d3f">  <span style="color: #51afef;">function</span> <span style="color: #c678dd;">isPass</span>(<span style="color: #dcaeea;">student</span>) {
+      <span style="color: #51afef;">var</span> <span style="color: #dcaeea;">name</span> = student[<span style="color: #da8548; font-weight: bold;">0</span>];
+      <span style="color: #51afef;">var</span> <span style="color: #dcaeea;">mark</span> = student[<span style="color: #da8548; font-weight: bold;">1</span>];
+      <span style="color: #51afef;">return</span> mark &gt;= requiredMark(name);
+  }
+  
+  <span style="color: #51afef;">function</span> <span style="color: #c678dd;">requiredMark</span>(<span style="color: #dcaeea;">name</span>) {
+      <span style="color: #51afef;">return</span> <span style="color: #da8548; font-weight: bold;">50</span> + name.length * <span style="color: #da8548; font-weight: bold;">5</span>;
+  }
+
+  <span style="color: #51afef;">return</span> students.map(<span style="color: #51afef;">function</span>(<span style="color: #dcaeea;">student</span>) {
+      <span style="color: #51afef;">var</span> <span style="color: #dcaeea;">name</span> = student[<span style="color: #da8548; font-weight: bold;">0</span>];
+      <span style="color: #51afef;">var</span> <span style="color: #dcaeea;">pass</span> = isPass(student) ? <span style="color: #98be65;">'Passed'</span> : <span style="color: #98be65;">'Failed'</span>;
+      <span style="color: #51afef;">return</span> [
+          name,
+          requiredMark(name),
+          pass
+      ];
+  });
+</pre>
+</div>
+
+<pre class="example">
+[
+  [ 'Alice', 75, 'Passed' ],
+  [ 'Bob', 65, 'Failed' ],
+  [ 'Claire', 80, 'Failed' ],
+  [ 'Dave', 70, 'Failed' ],
+  [ 'Eve', 65, 'Passed' ],
+  [ 'Frank', 75, 'Failed' ]
+]
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-js" id="orgfc9d0a2">    <span style="color: #51afef;">function</span> <span style="color: #c678dd;">average</span>(<span style="color: #dcaeea;">marks</span>) {
+        <span style="color: #51afef;">return</span> Math.round(marks.reduce(<span style="color: #51afef;">function</span>(<span style="color: #dcaeea;">accumulator</span>, <span style="color: #dcaeea;">next</span>) {
+            <span style="color: #51afef;">return</span> accumulator + next;
+        }, <span style="color: #da8548; font-weight: bold;">0</span>) / marks.length);
+    }
+  
+    <span style="color: #51afef;">function</span> <span style="color: #c678dd;">standardDeviation</span>(<span style="color: #dcaeea;">marks</span>) {
+        <span style="color: #51afef;">var</span> <span style="color: #dcaeea;">marksAverage</span> = average(marks);
+        <span style="color: #51afef;">var</span> <span style="color: #dcaeea;">sd</span> = Math.sqrt(marks.reduce(<span style="color: #51afef;">function</span>(<span style="color: #dcaeea;">accumulator</span>, <span style="color: #dcaeea;">next</span>) {
+            <span style="color: #51afef;">return</span> accumulator + Math.pow(next - marksAverage, <span style="color: #da8548; font-weight: bold;">2</span>);
+        }, <span style="color: #da8548; font-weight: bold;">0</span>) / (marks.length - <span style="color: #da8548; font-weight: bold;">1</span>))
+        <span style="color: #51afef;">return</span> Math.round(sd);
+    }
+
+  <span style="color: #51afef;">var</span> <span style="color: #dcaeea;">marks</span> = students.map(<span style="color: #51afef;">function</span>(<span style="color: #dcaeea;">student</span>) {
+      <span style="color: #51afef;">return</span> student[<span style="color: #da8548; font-weight: bold;">1</span>];
+  });
+  console.log(<span style="color: #98be65;">'Count:'</span>, marks.length);
+  console.log(<span style="color: #98be65;">'Average:'</span>, average(marks));
+  console.log(<span style="color: #98be65;">'Standard deviation:'</span>, standardDeviation(marks));
+</pre>
+</div>
+
+<pre class="example">
+Count: 6
+Average: 60
+Standard deviation: 25
+</pre>
+
+
+
+
+
+<div class="org-src-container">
+<pre class="src src-rust"><span style="color: #51afef;">let</span> <span style="color: #dcaeea;">a</span>: <span style="color: #ECBE7B;">u32</span> = <span style="color: #da8548; font-weight: bold;">8</span>;
+<span style="color: #c678dd;">println!</span><span style="color: #51afef;">(</span><span style="color: #98be65;">"</span><span style="color: #98be65; font-style: italic;">{}</span><span style="color: #98be65;">"</span>, a.to_string<span style="color: #c678dd;">()</span><span style="color: #51afef;">)</span>;
+</pre>
+</div>
+
+<pre class="example">
+cargojpE1rt
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org505380f" class="outline-3">
+<h3 id="org505380f"><span class="section-number-3">1.9.</span> flashcards</h3>
+<div class="outline-text-3" id="text-1-9">
+<div class="org-src-container">
+<pre class="src src-shell" id="org7d9d046"><span style="color: #ECBE7B;">echo</span> <span style="color: #98be65;">"---pre ----"</span>
+</pre>
+</div>
+
+<pre class="example">
+---pre ----
+</pre>
+
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org1913f81"><span style="color: #ECBE7B;">echo</span> <span style="color: #98be65;">"---post----"</span>
+</pre>
+</div>
+
+<pre class="example">
+---post----
+</pre>
+
+
+<p>
+&#x2014;pre -&#x2014;
+</p>
+<ul class="org-ul">
+<li>renew middle -</li>
+</ul>
+<p>
+&#x2014;post-&#x2014;
+</p>
+
+<p>
+&#x2014;pre -&#x2014;
+</p>
+<ul class="org-ul">
+<li>middle -</li>
+</ul>
+<p>
+&#x2014;post-&#x2014;
+&#x2014;pre -&#x2014;
+</p>
+<ul class="org-ul">
+<li>middle -</li>
+</ul>
+<p>
+&#x2014;post-&#x2014;
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: John Doe</p>
+<p class="date">Created: 2023-05-04 Thu 15:42</p>
+</div>
+</body>
+</html>
